@@ -11,7 +11,7 @@ Learn FastAPI by building a complete blog application with REST API, templates, 
 ## 📚 Structure
 ```
 part01-getting-started/     ✅ Complete - Basic FastAPI, blog API
-part02-html-frontend/       Jinja2 templates, HTML pages
+part02-html-frontend/       ✅ Complete - Jinja2 templates, HTML pages
 part03-path-parameters/     Dynamic routes, validation
 part04-pydantic-schemas/    Request/response models
 part05-database/            SQLAlchemy integration
@@ -33,6 +33,12 @@ pip install -r requirements.txt
 
 # Run Part 1
 cd part01-getting-started
+uvicorn main:app --reload
+# Visit: http://localhost:8000/docs
+```
+
+# Run Part 2
+cd part02-html-frontend
 uvicorn main:app --reload
 # Visit: http://localhost:8000/docs
 ```
