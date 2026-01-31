@@ -1,88 +1,80 @@
-# Part 1: Getting Started - Building Your First API
+# Part 2: HTML Frontend - Jinja2 Templates
 
 ## Video Info
-**Duration:** 23:54  
-**Link:** [Part 1 - Getting Started](https://www.youtube.com/watch?v=7AMjmCTumuo)  
-**Completed:** January 29, 2026 ✅
+**Duration:** 37:26  
+**Completed:** January 30, 2026 ✅
 
 ## What I Built
 
-Simple **Blog API** with in-memory data storage.
+HTML frontend using Jinja2 templates with static file serving.
 
-### Endpoints
-- `GET /` → HTML: Displays first post title
-- `GET /posts` → HTML: Displays first post title
-- `GET /api/posts` → JSON: Returns all blog posts
-
-### Sample Data
-3 blog posts with structure:
-```python
-{
-    "id": int,
-    "author": str,
-    "title": str,
-    "content": str,
-    "date_posted": str
-}
+**Files Created:**
+```
+part02-html-frontend/
+├── main.py
+├── templates/
+│   ├── base.html
+│   ├── home.html
+│   └── about.html
+└── static/css/main.css
 ```
 
 ## Running This Code
 ```bash
-cd part01-getting-started
+cd part02-html-frontend
 uvicorn main:app --reload
+# Visit: http://localhost:8000
 ```
-
-**Access:**
-- Homepage: http://localhost:8000/
-- API: http://localhost:8000/api/posts
-- Docs: http://localhost:8000/docs
 
 ## Key Learnings
 
-### Concepts
-- ✅ FastAPI app creation (`app = FastAPI()`)
-- ✅ Route decorators (`@app.get()`)
-- ✅ Type hints (`list[dict]`)
-- ✅ `response_class=HTMLResponse` for HTML responses
-- ✅ `include_in_schema=False` to hide from API docs
-- ✅ Automatic JSON serialization
-- ✅ Multiple routes to same function
+- ✅ Jinja2 template engine setup
+- ✅ Template inheritance with `{% extends %}`
+- ✅ Static file serving
+- ✅ Passing data to templates
+- ✅ Template variables `{{ variable }}`
+- ✅ Loops `{% for item in list %}`
 
-### Code Highlights
+## Code Highlights
 
-**Type-hinted data:**
+**Setup:**
 ```python
-posts: list[dict] = [...]
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 ```
 
-**HTML response:**
+**Render Template:**
 ```python
-@app.get("/", response_class=HTMLResponse, include_in_schema=False)
-def home():
-    return f"<h1>{posts[0]['title']}</h1>"
+@app.get("/")
+def home(request: Request):
+    return templates.TemplateResponse(
+        "home.html",
+        {"request": request, "posts": posts}
+    )
 ```
 
-**JSON response:**
-```python
-@app.get("/api/posts")
-def get_posts():
-    return posts  # Auto-converts to JSON!
+**Template (home.html):**
+```html
+{% extends "base.html" %}
+
+{% block content %}
+{% for post in posts %}
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.content }}</p>
+{% endfor %}
+{% endblock %}
 ```
 
 ## My Notes
 
-**Awesome Features:**
-- Automatic API documentation at `/docs`
-- No manual JSON serialization needed
-- Type validation happens automatically
-- Can mix HTML and JSON in same app
-
-**Next Steps:**
-- Part 2: Replace basic HTML with Jinja2 templates
-- Add path parameters (e.g., `/api/posts/{id}`)
-- Add POST endpoint to create posts
+- Template inheritance keeps code DRY
+- `url_for()` handles static file paths
+- Much cleaner than string concatenation!
 
 ---
 
 **Status:** ✅ Complete  
-**Time:** ~1 hour
+**Next:** Part 3 - Path Parameters
