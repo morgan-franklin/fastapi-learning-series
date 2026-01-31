@@ -1,88 +1,68 @@
-# Part 1: Getting Started - Building Your First API
+# Part 3: Path Parameters - Validation and Error Handling
 
 ## Video Info
-**Duration:** 23:54  
-**Link:** [Part 1 - Getting Started](https://www.youtube.com/watch?v=7AMjmCTumuo)  
-**Completed:** January 29, 2026 ✅
+**Duration:** 36:56  
+**Completed:** January 30, 2026 ✅
 
 ## What I Built
 
-Simple **Blog API** with in-memory data storage.
-
-### Endpoints
-- `GET /` → HTML: Displays first post title
-- `GET /posts` → HTML: Displays first post title
-- `GET /api/posts` → JSON: Returns all blog posts
-
-### Sample Data
-3 blog posts with structure:
-```python
-{
-    "id": int,
-    "author": str,
-    "title": str,
-    "content": str,
-    "date_posted": str
-}
-```
+Dynamic routing with path parameters and validation.
 
 ## Running This Code
 ```bash
-cd part01-getting-started
+cd part03-path-parameters
 uvicorn main:app --reload
+# Visit: http://localhost:8000/docs
 ```
-
-**Access:**
-- Homepage: http://localhost:8000/
-- API: http://localhost:8000/api/posts
-- Docs: http://localhost:8000/docs
 
 ## Key Learnings
 
-### Concepts
-- ✅ FastAPI app creation (`app = FastAPI()`)
-- ✅ Route decorators (`@app.get()`)
-- ✅ Type hints (`list[dict]`)
-- ✅ `response_class=HTMLResponse` for HTML responses
-- ✅ `include_in_schema=False` to hide from API docs
-- ✅ Automatic JSON serialization
-- ✅ Multiple routes to same function
+- ✅ Path parameters (`/post/{id}`)
+- ✅ Type validation (automatic with type hints)
+- ✅ Query parameters
+- ✅ Optional parameters with `Optional[str]`
+- ✅ Error handling with `HTTPException`
+- ✅ Status codes (404, 400, etc.)
 
-### Code Highlights
+## Code Highlights
 
-**Type-hinted data:**
+**Path Parameters:**
 ```python
-posts: list[dict] = [...]
+@app.get("/post/{id}")
+def get_post(id: int):
+    # FastAPI validates id is an integer
+    post = next((p for p in posts if p["id"] == id), None)
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    return post
 ```
 
-**HTML response:**
+**Query Parameters:**
 ```python
-@app.get("/", response_class=HTMLResponse, include_in_schema=False)
-def home():
-    return f"<h1>{posts[0]['title']}</h1>"
+@app.get("/posts")
+def get_posts(limit: int = 10, skip: int = 0):
+    return posts[skip:skip + limit]
 ```
 
-**JSON response:**
+**Optional Parameters:**
 ```python
-@app.get("/api/posts")
-def get_posts():
-    return posts  # Auto-converts to JSON!
+from typing import Optional
+
+@app.get("/search")
+def search(q: Optional[str] = None):
+    if q:
+        return [p for p in posts if q.lower() in p["title"].lower()]
+    return posts
 ```
 
 ## My Notes
 
-**Awesome Features:**
-- Automatic API documentation at `/docs`
-- No manual JSON serialization needed
-- Type validation happens automatically
-- Can mix HTML and JSON in same app
-
-**Next Steps:**
-- Part 2: Replace basic HTML with Jinja2 templates
-- Add path parameters (e.g., `/api/posts/{id}`)
-- Add POST endpoint to create posts
+- Type hints enable automatic validation
+- FastAPI returns 422 for invalid types
+- `HTTPException` for custom error responses
+- Path parameters come before query parameters
 
 ---
 
 **Status:** ✅ Complete  
-**Time:** ~1 hour
+**Next:** Part 4 - Pydantic Schemas
