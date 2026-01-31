@@ -12,7 +12,7 @@ Learn FastAPI by building a complete blog application with REST API, templates, 
 ```
 part01-getting-started/     ✅ Complete - Basic FastAPI, blog API
 part02-html-frontend/       ✅ Complete - Jinja2 templates, HTML pages
-part03-path-parameters/     Dynamic routes, validation
+part03-path-parameters/     ✅ Complete - Dynamic routes, validation
 part04-pydantic-schemas/    Request/response models
 part05-database/            SQLAlchemy integration
 part06-crud-operations/     Create, Read, Update, Delete
@@ -43,14 +43,20 @@ uvicorn main:app --reload
 # Visit: http://localhost:8000/docs
 ```
 
+# Run Part 3
+cd part02-path-parameters
+uvicorn main:app --reload
+# Visit: http://localhost:8000/docs
+```
+
 ## 📊 Progress
 
-**Current:** Part 1/10 complete (10%)  
-**Last Updated:** January 29, 2026
+**Current:** Part 3/10 complete (30%)  
+**Last Updated:** January 30, 2026
 
-- [x] Part 1: Getting Started - Blog API, HTML/JSON endpoints
-- [X] Part 2: HTML Frontend - Jinja2 templates
-- [ ] Part 3: Path Parameters - Dynamic routes
+- [x] Part 1: Getting Started - Blog API, HTML/JSON endpoints ✅
+- [x] Part 2: HTML Frontend - Jinja2 templates ✅
+- [x] Part 3: Path Parameters - Dynamic routes, validation ✅
 - [ ] Part 4: Pydantic Schemas - Request validation
 - [ ] Part 5-10: Database, CRUD, Auth, Testing, Deployment
 
