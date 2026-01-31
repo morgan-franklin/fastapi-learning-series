@@ -43,7 +43,7 @@ uvicorn main:app --reload
 **Last Updated:** January 29, 2026
 
 - [x] Part 1: Getting Started - Blog API, HTML/JSON endpoints
-- [ ] Part 2: HTML Frontend - Jinja2 templates
+- [X] Part 2: HTML Frontend - Jinja2 templates
 - [ ] Part 3: Path Parameters - Dynamic routes
 - [ ] Part 4: Pydantic Schemas - Request validation
 - [ ] Part 5-10: Database, CRUD, Auth, Testing, Deployment
